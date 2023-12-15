@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# Check if an argument is provided
+if [ $# -eq 0 ]; then
+    echo "Provide an input!"
+    exit 1
+fi
+
+# Validate that the input is a 4-digit integer
+if ! [[ $1 =~ ^[0-9]{4}$ ]]; then
+    echo "Error: Input must be a 4-digit integer."
+    exit 1
+fi
+
+# Get the input 4-digit integer
+input_integer=$1
+
+# Hash the input using SHA-256 and save the output to hash_output.txt
+echo -n "$input_integer" | sha256sum > hash_output.txt
+
+echo "Hash generated and saved to hash_output.txt"
