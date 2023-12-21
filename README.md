@@ -2,7 +2,7 @@
 
 This project contains:
 
-1. `hash_script`: Executable which hashes a 4-digit number. It should be executed as:
+1. `hash_script`: Executable script which hashes a 4-digit number. It should be executed as:
 
     ```$ ./hash_script ####```
     
