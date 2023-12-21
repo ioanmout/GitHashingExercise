@@ -1,0 +1,187 @@
+example_pause.c:
+
+
+Command executed: ./example_pause 7
+
+When running this command, this output is being printed:
+
+The time before pause is Tue Dec 19 12:30:52 2023
+
+Signal catcher called for signal 14
+The time after pause is Tue Dec 19 12:30:59 2023
+
+
+The process sends an alarm signal (SIGALARM) to itself after t seconds, which we provide as an argument. The program prints the time before pause, and pauses the process. The signal catcher catches the SIGALARM, which unpauses the process and prints the time after the pause. The signal catcher() function is activated so the output prints the message: "Signal catcher called for signal 14", which is the code number for SIGALARM. As shown, the pause duration corresponds to the seconds given as an argument. 
+
+
+-------------------------------------------------------------
+
+
+example_sleep.c
+
+
+Command executed: ./example_sleep
+
+When running this command, this output is being printed:
+
+Going to sleep for a second...
+Going to sleep for a second...
+Going to sleep for a second...
+Going to sleep for a second...
+
+
+The process is running forever as there is a while(1) loop, printing the message: "Going to sleep for a second...". There is a signal catcher function, which awaits for a SIGINT signal (Ctrl+C). When pressing Ctrl+C, the signal catcher is activated, it prints: "^CCaught signal 2, coming out..." and terminates the process with an error as there is an exit(1) command in the sighandler() function.
+
+
+-------------------------------------------------------------
+
+
+immun2ctrlC.c
+
+Command executed: ./immun2ctrlC 5 
+
+When running this command, this output is being printed:
+
+sleeping for: 5 sec
+
+
+The program sleeps for t seconds, that we provide as an argument. The process ignores SIGINT signals in that time duration (t), meaning that if we press Ctrl+C, the process doesn't terminate.
+
+
+-------------------------------------------------------------
+
+
+example_kill.c
+
+
+Command executed: ./example_kill 0
+
+When running this command, this output is being printed:
+
+Back in main
+The kill() function was called 0 times
+The signal catching function was called 0 times
+
+
+Command executed: ./example_kill 7 
+
+When running this command, this output is being printed:
+
+Back in main
+The kill() function was called 1 times
+The signal catching function was called 1 times
+
+
+Command executed: ./example_kill 67 
+
+When running this command, this output is being printed:
+
+Back in main
+The kill() function was called 7 times
+The signal catching function was called 7 times
+
+
+Command executed: ./example_kill 34
+
+When running this command, this output is being printed:
+
+Back in main
+The kill() function was called 4 times
+The signal catching function was called 4 times
+
+
+The program takes as an argument a number, which is passed to the sendsig() function as a variable "count". This function sends a signal when this condition is true:
+if (i == ((i/10)*10))
+
+The loop iterates over the i-s from i==0 till i==count-1
+This condition is true when i is a number divisible by 10. For instance:
+
+if count equals to 65, i goes up to 64, so the condition is true when i==0, i==10, i==20, i==30, i==40, i==50, i==60.
+
+When the condition is true the j is incremented by 1. So when count > 0, a signal is sent (((count-1) / 10) + 1) times, where / is an integer division.
+
+
+-------------------------------------------------------------
+
+
+pipe_1.c:
+
+
+Command executed: ./pipe_1 4
+
+When running this command, this output is being printed:
+
+Creating 4 children
+FATHER: I receiνed from children:
+
+Ηello from child  1 (pid=4451)
+Ηello from child  2 (pid=4452)
+Ηello from child  3 (pid=4453)
+Ηello from child  4 (pid=4454)
+      
+
+The program creates N children, which N we pass as an argument, using the fork() function. A pipe is being created. Each child gets as an argument the pipe and sends the message: "Hello from child [child_index] (pid=[child_pid])", containing its index and its pid, through the writing end pd[1]. The father reads the messages from the listening end pd[0] and prints them in the stdout. The messages may not be in order.
+
+
+-------------------------------------------------------------
+
+
+pipe_2.c:
+
+
+Command executed: ./pipe_2
+
+When running this command, this output is being printed:
+
+message through pipe
+
+
+The program creates a child, using the fork() function. A pipe is being created. The parent process sends the message: "message through pipe" through the writing end fd[1]. The child reads it from the listening end fd[0] and prints it in the stdout.
+
+
+-------------------------------------------------------------
+
+
+signal.c:
+
+
+Command executed: ./signal echo "Hello World"
+
+When running this command, this output is being printed:
+
+Executing: echo
+Hello World
+
+
+Command executed: ./signal -3 sleep 20
+
+When running this command, this output is being printed:
+
+Executing: sleep
+Alarm resived: 14
+Child process killed
+
+
+Command executed: ./signal sleep 20
+
+When running this command, this output is being printed:
+
+Executing: sleep
+Alarm resived: 14
+Child process killed
+
+
+Command executed: ./signal ls
+
+When running this command, this output is being printed:
+
+Executing: ls
+Makefile  example_kill  example_kill.c  example_pause  example_pause.c  example_sleep  example_sleep.c  immun2ctrlC  immun2ctrlC.c  pipe_1  pipe_1.c  pipe_2  pipe_2.c  signal  signal.c
+
+
+This program executes a command. It also receives a flag with a number. When a number flag is provided, the program sets an alarm with a timer equal to the number of seconds the flag says. For instance:
+
+if we provide -3 then the timer for the alarm is set into 3 seconds. 
+
+The default value is 10 seconds. The program is used to execute commands with a timer set by default on 10 seconds. If the execution of the command exceeds the timer set, then the command terminates by the alarm.
+
