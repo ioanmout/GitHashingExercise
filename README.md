@@ -4,15 +4,11 @@ This project contains:
 
 1. hash_script: Executable which hashes a 4-digit number. It should be executed by:
 
-    '''bash
-    $ ./hash_script #### 
-    '''
-
+    '$ ./hash_script ####'
+    
     where #### corresponds to the 4-digit number entered. For instance:
 
-    '''bash
-    $ ./hash_script 1234 
-    '''
+    '$ ./hash_script 1234' 
 
 2. hash_output.txt: Contains the hashed 4-digit number
 
