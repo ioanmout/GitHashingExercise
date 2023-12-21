@@ -7,11 +7,9 @@ This project contains:
     '''bash
     $ ./hash_script #### 
     '''
-    </pre>
 
     where #### corresponds to the 4-digit number entered. For instance:
 
-    <pre>
     '''bash
     $ ./hash_script 1234 
     '''
